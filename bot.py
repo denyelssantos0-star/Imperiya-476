@@ -53,9 +53,22 @@ async def on_ready():
             )
             if canal_alistamento is not None:
                 mensagens_recentes = [
-                    mensagem async for mensagem in canal_alistamento.history(limit=20)
+                    mensagem async for mensagem in canal_alistamento.history(limit=30)
                     if mensagem.author == bot.user
                 ]
+                # Remove formulários antigos que ainda mencionavam o cargo específico.
+                mention_cargo_antigo = f"<@&{CARGO_ALISTAMENTO}>"
+                for mensagem in mensagens_recentes:
+                    if mention_cargo_antigo in mensagem.content:
+                        try:
+                            await mensagem.delete()
+                            print("🗑️ Formulário antigo com menção de cargo removido.")
+                        except discord.Forbidden:
+                            print("❌ Sem permissão para apagar o formulário antigo.")
+                        except discord.HTTPException as erro:
+                            print(f"❌ Não consegui remover o formulário antigo: {erro}")
+
+                mensagens_recentes = [m for m in mensagens_recentes if m.content.strip() != ""]
                 if not any(m.content.strip() == MODELO_ENLISTMENT.strip() for m in mensagens_recentes):
                     await enviar_formulario_enlistment(canal_alistamento)
 
