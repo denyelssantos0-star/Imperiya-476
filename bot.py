@@ -1059,4 +1059,7 @@ async def on_message(message):
 async def on_ready_alistamento():
     pass
 
-bot.run(MTU3NDk4MjAwMDk3NTE1OTQxNw.G9dyEl.ZzBG95sJFB4Vd82DQtubF9g9QojTBNy1c6IjiE)
+if not TOKEN:
+    raise RuntimeError("DISCORD_TOKEN não foi configurado nas variáveis de ambiente da FadeHost.")
+
+bot.run(TOKEN)
