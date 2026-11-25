@@ -116,8 +116,8 @@ async def serverinfo(interaction: discord.Interaction):
 # BOAS-VINDAS
 # =========================
 
-CANAL_BOAS_VINDAS = 1555761617524887562
-CANAL_CONTADOR = 1555762204924452924
+CANAL_BOAS_VINDAS = 1574325988752363540
+CANAL_CONTADOR = 1575044479000518676
 
 async def atualizar_contador(guild):
     # Primeiro procura no cache; se necessário, consulta o Discord pela API.
@@ -163,7 +163,7 @@ async def atualizar_contador(guild):
 async def on_member_join(member):
     await atualizar_contador(member.guild)
         # 🎭 Cargo automático
-    cargo = member.guild.get_role(1555760706895482971)
+    cargo = member.guild.get_role(1562426482897461278)
 
 
     if cargo:
