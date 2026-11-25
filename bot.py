@@ -15,9 +15,9 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
-NOME_CANAL_ALISTAMENTO = "alistamento"
+NOME_CANAL_ALISTAMENTO = "enlistment"
 CARGOS_ALISTAMENTO = [1555754432925405194, 1557070129085550672]
-MODELO_ALISTAMENTO = "<@&1555754432925405194> <@&1557070129085550672>\n\nNome:\nID:\nPlataforma:\nPrint info:"
+MODELO_ALISTAMENTO = "@<1562426482897461278>\n\nNome:\nID:\nPlataforma:\nPrint info:"
 
 @bot.event
 async def on_ready():
@@ -39,14 +39,14 @@ async def on_ready():
         # Garante que o #alistamento tenha um formulário limpo no início.
         for guild in bot.guilds:
             canal_alistamento = discord.utils.get(
-                guild.text_channels, name=NOME_CANAL_ALISTAMENTO
+                guild.text_channels, name=NOME_CANAL_ENLISTMENT
             )
             if canal_alistamento is not None:
                 mensagens_recentes = [
                     mensagem async for mensagem in canal_alistamento.history(limit=20)
                     if mensagem.author == bot.user
                 ]
-                if not any(m.content.strip() == MODELO_ALISTAMENTO.strip() for m in mensagens_recentes):
+                if not any(m.content.strip() == MODELO_ENLISTMENT.strip() for m in mensagens_recentes):
                     await enviar_formulario_alistamento(canal_alistamento)
 
     except Exception as erro:
@@ -385,7 +385,7 @@ async def kick(
 
         embed = discord.Embed(
             title="👢 Membro expulso",
-            color=discord.Color.orange()
+            color=discord.Color.black()
         )
 
         embed.add_field(
@@ -445,7 +445,7 @@ async def ban(
 
         embed = discord.Embed(
             title="🔨 Membro banido",
-            color=discord.Color.red()
+            color=discord.Color.black()
         )
 
         embed.add_field(
@@ -521,7 +521,7 @@ async def timeout(
         # Resposta do comando
         embed = discord.Embed(
             title="🔇 Timeout aplicado",
-            color=discord.Color.orange()
+            color=discord.Color.black()
         )
 
         embed.add_field(
@@ -692,7 +692,7 @@ async def on_message_delete(message):
 
     embed = discord.Embed(
         title="🗑️ Mensagem apagada",
-        color=discord.Color.red(),
+        color=discord.Color.black(),
         timestamp=discord.utils.utcnow()
     )
 
@@ -752,7 +752,7 @@ async def on_message_edit(before, after):
 
     embed = discord.Embed(
         title="✏️ Mensagem editada",
-        color=discord.Color.orange(),
+        color=discord.Color.black(),
         timestamp=discord.utils.utcnow()
     )
 
@@ -838,7 +838,7 @@ async def enviar_log_moderacao(
             inline=False
         )
 
-    embed.set_footer(text="Os Originais • Sistema de Moderação")
+    embed.set_footer(text="Imperiya • 476 d.C.")
 
     await canal.send(embed=embed)
 
@@ -1026,7 +1026,7 @@ async def userinfo(
     )
 
     embed.set_footer(
-        text="Os Originais • User Info"
+        text="Imperiya • info"
     )
 
     await interaction.response.send_message(
@@ -1083,17 +1083,17 @@ async def say(
 # 📋 SISTEMA DE ALISTAMENTO - OS ORIGINAIS
 # ==========================================
 
-async def enviar_formulario_alistamento(canal):
+async def enviar_formulario_enlistment(canal):
     try:
         await canal.send(
-            MODELO_ALISTAMENTO,
+            MODELO_ENLISTMENT,
             allowed_mentions=discord.AllowedMentions(roles=True)
         )
-        print(f"✅ Formulário de alistamento enviado em #{canal.name}.")
+        print(f"✅ Formulário de enlistment enviado em #{canal.name}.")
     except discord.Forbidden:
-        print("❌ Sem permissão para enviar o formulário ou mencionar os cargos no #alistamento.")
+        print("❌ Sem permissão para enviar o formulário ou mencionar os cargos no #enlistment.")
     except discord.HTTPException as erro:
-        print(f"❌ Erro ao enviar formulário de alistamento: {erro}")
+        print(f"❌ Erro ao enviar formulário de enlistment: {erro}")
 
 
 @bot.event
@@ -1101,18 +1101,18 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    if isinstance(message.channel, discord.TextChannel) and message.channel.name == NOME_CANAL_ALISTAMENTO:
+    if isinstance(message.channel, discord.TextChannel) and message.channel.name == NOME_CANAL_ENLISTMENT:
         texto = message.content.strip()
 
         # Se a mensagem já for o formulário limpo do bot, não cria outro.
-        if texto != MODELO_ALISTAMENTO.strip():
-            await enviar_formulario_alistamento(message.channel)
+        if texto != MODELO_ENLISTMENT.strip():
+            await enviar_formulario_enlistment(message.channel)
 
     await bot.process_commands(message)
 
 
 @bot.event
-async def on_ready_alistamento():
+async def on_ready_enlistment():
     pass
 
 if not TOKEN:
