@@ -13,14 +13,21 @@ intents.members = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
+INICIALIZADO = False
 
 
-NOME_CANAL_ALISTAMENTO = "enlistment"
+NOME_CANAL_ENLISTMENT = "enlistment"
 CARGOS_ALISTAMENTO = [1555754432925405194, 1557070129085550672]
-MODELO_ALISTAMENTO = "@<1562426482897461278>\n\nNome:\nID:\nPlataforma:\nPrint info:"
+MODELO_ENLISTMENT = (
+    f"<@&{CARGOS_ALISTAMENTO[0]}> <@&{CARGOS_ALISTAMENTO[1]}>\n\n"
+    "Nome:\nID:\nPlataforma:\nPrint info:"
+)
 
 @bot.event
 async def on_ready():
+    global INICIALIZADO
+    if INICIALIZADO:
+        return
     try:
         synced = await bot.tree.sync()
 
@@ -47,8 +54,9 @@ async def on_ready():
                     if mensagem.author == bot.user
                 ]
                 if not any(m.content.strip() == MODELO_ENLISTMENT.strip() for m in mensagens_recentes):
-                    await enviar_formulario_alistamento(canal_alistamento)
+                    await enviar_formulario_enlistment(canal_alistamento)
 
+        INICIALIZADO = True
     except Exception as erro:
         print(f"❌ Erro ao sincronizar: {erro}")
 
@@ -70,7 +78,7 @@ async def avatar(
 
     embed = discord.Embed(
         title=f"🖼️ Avatar de {usuario.display_name}",
-        color=discord.Color.purple()
+        color=discord.Color(0x000000)
     )
 
     embed.set_image(url=usuario.display_avatar.url)
@@ -85,7 +93,7 @@ async def serverinfo(interaction: discord.Interaction):
 
     embed = discord.Embed(
         title=f"📊 {guild.name}",
-        color=discord.Color.purple()
+        color=discord.Color(0x000000)
     )
 
     embed.add_field(
@@ -385,7 +393,7 @@ async def kick(
 
         embed = discord.Embed(
             title="👢 Membro expulso",
-            color=discord.Color.black()
+            color=discord.Color(0x000000)
         )
 
         embed.add_field(
@@ -445,7 +453,7 @@ async def ban(
 
         embed = discord.Embed(
             title="🔨 Membro banido",
-            color=discord.Color.black()
+            color=discord.Color(0x000000)
         )
 
         embed.add_field(
@@ -521,7 +529,7 @@ async def timeout(
         # Resposta do comando
         embed = discord.Embed(
             title="🔇 Timeout aplicado",
-            color=discord.Color.black()
+            color=discord.Color(0x000000)
         )
 
         embed.add_field(
@@ -692,7 +700,7 @@ async def on_message_delete(message):
 
     embed = discord.Embed(
         title="🗑️ Mensagem apagada",
-        color=discord.Color.black(),
+        color=discord.Color(0x000000),
         timestamp=discord.utils.utcnow()
     )
 
@@ -752,7 +760,7 @@ async def on_message_edit(before, after):
 
     embed = discord.Embed(
         title="✏️ Mensagem editada",
-        color=discord.Color.black(),
+        color=discord.Color(0x000000),
         timestamp=discord.utils.utcnow()
     )
 
@@ -807,7 +815,7 @@ async def enviar_log_moderacao(
 
     embed = discord.Embed(
         title=titulo,
-        color=discord.Color.purple(),
+        color=discord.Color(0x000000),
         timestamp=discord.utils.utcnow()
     )
 
@@ -868,20 +876,20 @@ async def criar_embed(
     imagem: str = None,
     rodape: str = "Os Originais",
     miniatura: str = None,
-    cor: str = "roxo"):
+    cor: str = "preto"):
     cores = {
-        "roxo": discord.Color.purple(),
-        "vermelho": discord.Color.red(),
-        "azul": discord.Color.blue(),
-        "verde": discord.Color.green(),
-        "amarelo": discord.Color.yellow(),
-        "laranja": discord.Color.orange(),
-        "preto": discord.Color.from_rgb(0, 0, 0),
-        "rosa": discord.Color.from_rgb(255, 105, 180),
-        "branco": discord.Color.from_rgb(255, 255, 255)
+        "roxo": discord.Color(0x000000),
+        "vermelho": discord.Color(0x000000),
+        "azul": discord.Color(0x000000),
+        "verde": discord.Color(0x000000),
+        "amarelo": discord.Color(0x000000),
+        "laranja": discord.Color(0x000000),
+        "preto": discord.Color(0x000000),
+        "rosa": discord.Color(0x000000),
+        "branco": discord.Color(0x000000)
     }
 
-    cor_embed = cores.get(cor.lower(), discord.Color.purple())
+    cor_embed = cores.get(cor.lower(), discord.Color(0x000000))
 
     try:
         embed = discord.Embed(
@@ -974,7 +982,7 @@ async def userinfo(
 
     embed = discord.Embed(
         title=f"👤 Informações de {usuario.display_name}",
-        color=discord.Color.purple(),
+        color=discord.Color(0x000000),
         timestamp=discord.utils.utcnow()
     )
 
@@ -1087,7 +1095,9 @@ async def enviar_formulario_enlistment(canal):
     try:
         await canal.send(
             MODELO_ENLISTMENT,
-            allowed_mentions=discord.AllowedMentions(roles=True)
+            allowed_mentions=discord.AllowedMentions(
+                roles=True, users=False, everyone=False
+            )
         )
         print(f"✅ Formulário de enlistment enviado em #{canal.name}.")
     except discord.Forbidden:
