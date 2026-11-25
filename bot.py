@@ -19,8 +19,11 @@ INICIALIZADO = False
 NOME_CANAL_ENLISTMENT = "enlistment"
 CARGO_ALISTAMENTO = 1562426482897461278
 MODELO_ENLISTMENT = (
-    f"<@&{CARGO_ALISTAMENTO}>\n\n"
-    "Nome:\nID:\nPlataforma:\nPrint info:"
+    "@everyone\n\n"
+    "Nome:\n"
+    "ID:\n"
+    "Plataforma:\n"
+    "Print info:"
 )
 
 @bot.event
@@ -1096,7 +1099,7 @@ async def enviar_formulario_enlistment(canal):
         await canal.send(
             MODELO_ENLISTMENT,
             allowed_mentions=discord.AllowedMentions(
-                roles=True, users=False, everyone=False
+                roles=False, users=False, everyone=True
             )
         )
         print(f"✅ Formulário de enlistment enviado em #{canal.name}.")
