@@ -140,7 +140,7 @@ async def serverinfo(interaction: discord.Interaction):
 # BOAS-VINDAS
 # =========================
 
-CANAL_BOAS_VINDAS =
+CANAL_BOAS_VINDAS = 22
 CANAL_CONTADOR = 1575044479000518676
 
 async def atualizar_contador(guild):
