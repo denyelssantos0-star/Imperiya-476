@@ -890,7 +890,7 @@ async def criar_embed(
     mensagem: str,
     canal: discord.TextChannel,
     imagem: str = None,
-    rodape: str = "Os Originais",
+    rodape: str = "Imperiya 476 d.C.",
     miniatura: str = None,
     cor: str = "preto"):
     cores = {
