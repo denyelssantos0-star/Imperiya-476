@@ -894,15 +894,18 @@ async def criar_embed(
     miniatura: str = None,
     cor: str = "preto"):
     cores = {
-        "roxo": discord.Color(0x000000),
-        "vermelho": discord.Color(0x000000),
-        "azul": discord.Color(0x000000),
-        "verde": discord.Color(0x000000),
-        "amarelo": discord.Color(0x000000),
-        "laranja": discord.Color(0x000000),
+        "roxo": discord.Color(0x8000FF),
+        "vermelho": discord.Color(0xFF0000),
+        "azul": discord.Color(0x0000FF),
+        "verde": discord.Color(0x00FF00),
+        "amarelo": discord.Color(0xFFFF00),
+        "laranja": discord.Color(0xFF8000),
         "preto": discord.Color(0x000000),
-        "rosa": discord.Color(0x000000),
-        "branco": discord.Color(0x000000)
+        "rosa": discord.Color(0xFF69B4),
+        "branco": discord.Color(0xFFFFFF),
+        "marrom": discord.Color(0x8B4513),
+        "ciano": discord.Color(0x00FFFF),
+        "cinza": discord.Color(0x808080),
     }
 
     cor_embed = cores.get(cor.lower(), discord.Color(0x000000))
